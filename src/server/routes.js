@@ -2,7 +2,8 @@ const Router = require("koa-router");
 
 const LogController = require("../controls/Log.controller");
 const NoteController = require("../controls/Note.controller");
-const Projetoroller = require("../controls/Note.controller");
+const ProjeController = require("../controls/Note.controller");
+const TarefaController = require("../controls/Note.controller");
 const routes = new Router();
 
 routes
@@ -14,6 +15,7 @@ routes
   })
   .use(LogController)
   .use(NoteController)
-  .use(Projetoroller);
+  .use(ProjeController)
+  .use(TarefaController);
 
 module.exports = routes;
