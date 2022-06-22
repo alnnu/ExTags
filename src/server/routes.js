@@ -1,6 +1,7 @@
 const Router = require("koa-router");
 
 const LogController = require("../controls/Log.controller");
+const NoteController = require("../controls/Note.controller");
 const routes = new Router();
 
 routes
@@ -10,6 +11,7 @@ routes
       message: "foi",
     };
   })
-  .use(LogController);
+  .use(LogController)
+  .use(NoteController);
 
 module.exports = routes;
