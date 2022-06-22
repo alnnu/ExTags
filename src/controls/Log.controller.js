@@ -8,19 +8,19 @@ route
       message: "get logs",
     };
   })
-  .get("/api/log/criar", async (ctx) => {
+  .post("/api/log/criar", async (ctx) => {
     ctx.body = {
       status: "sucess",
       message: "log criado",
     };
   })
-  .get("/api/log/deletar", async (ctx) => {
+  .delete("/api/log/deletar", async (ctx) => {
     ctx.body = {
       status: "sucess",
       message: "log deletado",
     };
   })
-  .get("/api/log/editar/:id", async (ctx) => {
+  .put("/api/log/editar/:id", async (ctx) => {
     ctx.body = {
       status: "sucess",
       message: "log editado",
