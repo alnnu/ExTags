@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model faz {
+  id           Int      @id @default(autoincrement())
+  tarefa_id    Int      @default(autoincrement())
+  pessoa_email String[] @db.VarChar
+  pessoa       pessoa?  @relation(fields: [pessoa_email], references: [email], onUpdate: NoAction, map: "fk_faz_2")
+  tarefa       tarefa   @relation(fields: [tarefa_id], references: [id], onDelete: SetNull, onUpdate: NoAction, map: "fk_faz_1")
+}
+
+model nota {
+  id           Int       @id @default(autoincrement())
+  nome         String[]  @db.VarChar
+  texto        String[]  @db.VarChar
+  data         DateTime? @db.Date
+  projeto_id   Int       @default(autoincrement())
+  pessoa_email String[]  @db.VarChar
+  pessoa       pessoa?   @relation(fields: [pessoa_email], references: [email], onDelete: Cascade, onUpdate: NoAction, map: "fk_nota_3")
+  projeto      projeto   @relation(fields: [projeto_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_nota_2")
+}
+
+model participa {
+  id           Int      @id @default(autoincrement())
+  pessoa_email String[] @db.VarChar
+  projeto_id   Int      @default(autoincrement())
+  pessoa       pessoa?  @relation(fields: [pessoa_email], references: [email], onDelete: Restrict, onUpdate: NoAction, map: "fk_participa_1")
+  projeto      projeto  @relation(fields: [projeto_id], references: [id], onDelete: SetNull, onUpdate: NoAction, map: "fk_participa_2")
+}
+
+model pessoa {
+  email     String[]    @id @db.VarChar
+  senha     String[]    @db.VarChar
+  nome      String[]    @db.VarChar
+  faz       faz[]
+  nota      nota[]
+  participa participa[]
+  processo  processo[]
+  projeto   projeto[]
+  tarefa    tarefa[]
+}
+
+model processo {
+  id           Int       @id @default(autoincrement())
+  log          String[]  @db.VarChar
+  log_data     DateTime? @db.Date
+  pessoa_email String[]  @db.VarChar
+  tarefa_id    Int       @default(autoincrement())
+  pessoa       pessoa?   @relation(fields: [pessoa_email], references: [email], onDelete: Cascade, onUpdate: NoAction, map: "fk_processo_2")
+  tarefa       tarefa    @relation(fields: [tarefa_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_processo_3")
+}
+
+model projeto {
+  id           Int         @id @default(autoincrement())
+  nome         String[]    @db.VarChar
+  data         DateTime?   @db.Date
+  estado       Decimal?    @db.Decimal
+  pessoa_email String[]    @db.VarChar
+  pessoa       pessoa?     @relation(fields: [pessoa_email], references: [email], onDelete: Cascade, onUpdate: NoAction, map: "fk_projeto_2")
+  nota         nota[]
+  participa    participa[]
+  tarefa       tarefa[]
+}
+
+model tarefa {
+  id           Int        @id @default(autoincrement())
+  data         DateTime?  @db.Date
+  descricao    String[]   @db.VarChar
+  prioridade   Decimal?   @db.Decimal
+  estado       Decimal?   @db.Decimal
+  estimativa   Decimal?   @db.Decimal
+  nome         String[]   @db.Char(1)
+  projeto_id   Int        @default(autoincrement())
+  pessoa_email String[]   @db.VarChar
+  pessoa       pessoa?    @relation(fields: [pessoa_email], references: [email], onDelete: Cascade, onUpdate: NoAction, map: "fk_tarefa_3")
+  projeto      projeto    @relation(fields: [projeto_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_tarefa_2")
+  faz          faz[]
+  processo     processo[]
+}

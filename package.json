@@ -26,6 +26,7 @@
     "pg-hstore": "^2.3.4"
   },
   "devDependencies": {
-    "prettier": "2.7.1"
+    "prettier": "2.7.1",
+    "prisma": "^3.15.2"
   }
 }
