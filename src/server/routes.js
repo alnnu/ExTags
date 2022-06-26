@@ -4,6 +4,7 @@ const LogController = require("../controls/Log.controller");
 const NoteController = require("../controls/Note.controller");
 const ProjeController = require("../controls/Note.controller");
 const TarefaController = require("../controls/Note.controller");
+const PessoaController = require("../controls/Pessoa.controller");
 const routes = new Router();
 
 routes
@@ -16,6 +17,7 @@ routes
   .use(LogController)
   .use(NoteController)
   .use(ProjeController)
-  .use(TarefaController);
+  .use(TarefaController)
+  .use(PessoaController);
 
 module.exports = routes;
