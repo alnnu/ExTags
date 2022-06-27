@@ -18,6 +18,13 @@ routes
     const pessoa = new Pessoa();
     pessoa.criar();
   })
-  .delete("/api/pessoa/deletar", (ctx) => {});
+  .delete("/api/pessoa/deletar", async (ctx) => {
+    if (ctx.query.email != null) {
+      const pessoaDeletada = new Pessoa();
+      ctx.body = await pessoaDeletada.deletar(ctx.query.email);
+    } else {
+      ctx.status = 404;
+    }
+  });
 
 module.exports = routes.routes();

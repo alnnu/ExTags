@@ -33,6 +33,26 @@ class Pessoa {
       ],
     });
   }
+  async deletar(email) {
+    const pessoa = await prisma.pessoa.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    if (pessoa == null) {
+      return {
+        mensagem: "pessoa não encontrada",
+      };
+    } else {
+      const pessoaDeletada = await prisma.pessoa.delete({
+        where: {
+          email: email,
+        },
+      });
+      return pessoaDeletada;
+    }
+  }
 }
 
 module.exports = Pessoa;

@@ -1,1 +1,2 @@
-POST http://localhost:3000/api/pessoa/criar
+#DELETE http://localhost:3000/api/pessoa/deletar?email=luannf@gmail.com
+GET http://localhost:3000/api/pessoa
