@@ -59,6 +59,33 @@ route
         ctx.query.estado
       );
     } else ctx.status = 404;
+  })
+  .get("/api/projeto/pessoa", async (ctx) => {
+    const projeto = new Projeto();
+    if (ctx.query.email != null) {
+      let pessoas = projeto.getPessoaByEmail(ctx.query.email);
+      ctx.body = await pessoas;
+    } else {
+      let pessoas = projeto.getPessoas();
+      ctx.body = await pessoas;
+    }
   });
+
+route.post("/api/projeto/pessoa/criar", async (ctx) => {
+  ctx.checkBody("pessoa").isEmail().notBlank().notBlank();
+  ctx.checkBody("projeto").notBlank().notBlank();
+
+  if (ctx.errors) {
+    ctx.body = ctx.errors;
+    console.log(ctx.errors);
+  } else {
+    const novoParticipaOBJ = ctx.request.body;
+    const participa = new Projeto();
+    ctx.body = await participa.criarParticipa(
+      novoParticipaOBJ.pessoa,
+      novoParticipaOBJ.projeto
+    );
+  }
+});
 
 module.exports = route.routes();

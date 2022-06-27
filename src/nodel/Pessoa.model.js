@@ -30,7 +30,7 @@ class Pessoa {
   async criar(email, nome, senha) {
     const pessoa = await prisma.pessoa.findUnique({
       where: {
-        email,
+        email: email,
       },
       select: {
         nome: true,

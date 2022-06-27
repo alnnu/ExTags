@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const { parseInputDatesAsUTC } = require("pg/lib/defaults");
+const { createHash } = require("crypto");
 const prisma = new PrismaClient();
 
 class Projeto {
@@ -17,13 +18,16 @@ class Projeto {
     return Projeto;
   }
   async criar(nome, data, estado, gerente) {
-    return await prisma.projeto.create({
+    const projeto = await prisma.projeto.create({
       data: {
         nome: nome,
         estado: parseInt(estado),
         gerente_email: gerente,
       },
     });
+    this.criarParticipa(gerente, projeto.id);
+
+    return projeto;
   }
   async deletar(id) {
     const projeto = await prisma.projeto.findUnique({
@@ -55,6 +59,28 @@ class Projeto {
       },
     });
     return projetoEditada;
+  }
+  async getPessoas() {
+    const Pessoas = await prisma.participa.findMany();
+    return Pessoas;
+  }
+
+  async getPessoaByEmail(email) {
+    const Pessoa = await prisma.participa.findUnique({
+      where: {
+        email: email,
+      },
+    });
+    return Pessoa;
+  }
+
+  async criarParticipa(pessoa, projeto) {
+    const participa = await prisma.participa.create({
+      data: {
+        pessoa_email: pessoa,
+        projeto_id: parseInt(projeto),
+      },
+    });
   }
 }
 

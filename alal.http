@@ -1,4 +1,4 @@
 #DELETE http://localhost:3000/api/projeto/deletar?id=1
 #GET http://localhost:3000/api/projeto
 #POST http://localhost:3000/api/pessoa/criar
-PUT http://localhost:3000/api/projeto/editar?id=2&nome=t&data=1&estado=4
+#PUT http://localhost:3000/api/projeto/editar?id=2&nome=t&data=1&estado=4
