@@ -9,7 +9,6 @@ route
     if (ctx.query.id != null) {
       let projetos = projeto.getProjetoById(ctx.query.id);
       ctx.body = await projetos;
-      projeto.getPessoaByEmail(ctx.query.email);
     } else {
       let projetos = projeto.getProjetos();
       ctx.body = await projetos;
