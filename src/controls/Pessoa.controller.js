@@ -15,13 +15,21 @@ routes
     }
   })
   .post("/api/pessoa/criar", async (ctx) => {
-    const novoPessoaOBJ = ctx.request.body;
-    const pessoa = new Pessoa();
-    ctx.body = await pessoa.criar(
-      novoPessoaOBJ.email,
-      novoPessoaOBJ.nome,
-      novoPessoaOBJ.senha
-    );
+    ctx.checkBody("email").isEmail().notBlank().notBlank();
+    ctx.checkBody("nome").notBlank().notBlank();
+    ctx.checkBody("senha").notBlank().notBlank();
+
+    if (ctx.errors) {
+      ctx.body = ctx.errors;
+    } else {
+      const novoPessoaOBJ = ctx.request.body;
+      const pessoa = new Pessoa();
+      ctx.body = await pessoa.criar(
+        novoPessoaOBJ.email,
+        novoPessoaOBJ.nome,
+        novoPessoaOBJ.senha
+      );
+    }
   })
   .delete("/api/pessoa/deletar", async (ctx) => {
     if (ctx.query.email != null) {
