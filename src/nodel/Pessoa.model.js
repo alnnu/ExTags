@@ -1,10 +1,16 @@
 const { PrismaClient } = require("@prisma/client");
+const { createHash } = require("crypto");
 
 const prisma = new PrismaClient();
 
 class Pessoa {
   async getPessoas() {
-    const Pessoas = await prisma.pessoa.findMany();
+    const Pessoas = await prisma.pessoa.findMany({
+      select: {
+        nome: true,
+        email: true,
+      },
+    });
     return Pessoas;
   }
 
@@ -13,30 +19,44 @@ class Pessoa {
       where: {
         email: email,
       },
+      select: {
+        nome: true,
+        email: true,
+      },
     });
     return Pessoa;
   }
 
-  async criar() {
-    const novaPessoa = await prisma.pessoa.createMany({
-      data: [
-        {
-          email: "luannf@gmail.com",
-          nome: "luannzin",
-          senha: "aloMundo",
-        },
-        {
-          email: "d@gmail.com",
-          nome: "luannzao",
-          senha: "aloMundo",
-        },
-      ],
+  async criar(email, nome, senha) {
+    const pessoa = await prisma.pessoa.findUnique({
+      where: {
+        email,
+      },
+      select: {
+        nome: true,
+        email: true,
+      },
     });
+    if (pessoa == null) {
+      return await prisma.pessoa.create({
+        data: {
+          email: email,
+          nome: nome,
+          senha: createHash("sha256").update(senha).digest("hex"),
+        },
+      });
+    } else {
+      mensagem: "pessoa ja existe";
+    }
   }
   async deletar(email) {
     const pessoa = await prisma.pessoa.findUnique({
       where: {
         email: email,
+      },
+      select: {
+        nome: true,
+        email: true,
       },
     });
 
