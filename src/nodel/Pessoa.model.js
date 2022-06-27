@@ -45,13 +45,23 @@ class Pessoa {
         mensagem: "pessoa não encontrada",
       };
     } else {
-      const pessoaDeletada = await prisma.pessoa.delete({
+      return await prisma.pessoa.delete({
         where: {
           email: email,
         },
       });
-      return pessoaDeletada;
     }
+  }
+  async editar(email, nome) {
+    const pessoaEditada = await prisma.pessoa.update({
+      where: {
+        email: email,
+      },
+      data: {
+        nome: nome,
+      },
+    });
+    return pessoaEditada;
   }
 }
 

@@ -25,6 +25,12 @@ routes
     } else {
       ctx.status = 404;
     }
+  })
+  .put("/api/pessoa/editar", async (ctx) => {
+    if (ctx.query.email != null && ctx.query.nome != null) {
+      const pessoaEditada = new Pessoa();
+      ctx.body = await pessoaEditada.editar(ctx.query.email, ctx.query.nome);
+    } else ctx.status = 404;
   });
 
 module.exports = routes.routes();
