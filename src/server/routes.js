@@ -2,8 +2,8 @@ const Router = require("koa-router");
 
 const LogController = require("../controls/Log.controller");
 const NoteController = require("../controls/Note.controller");
-const ProjeController = require("../controls/Note.controller");
-const TarefaController = require("../controls/Note.controller");
+const ProjeController = require("../controls/Projeto.controller");
+const TarefaController = require("../controls/Tarefa.controller");
 const PessoaController = require("../controls/Pessoa.controller");
 const routes = new Router();
 

@@ -1,36 +1,64 @@
 const Router = require("koa-router");
+const Projeto = require("../nodel/Projeto.model");
+const Pessoa = require("../nodel/Pessoa.model");
 const route = new Router();
 
 route
-  .get("/api/projetos", (ctx) => {
-    ctx.body = {
-      status: "sucess",
-      message: "get projetos",
-    };
+  .get("/api/projeto", async (ctx) => {
+    const projeto = new Projeto();
+    if (ctx.query.id != null) {
+      let projetos = projeto.getProjetoById(ctx.query.id);
+      ctx.body = await projetos;
+      projeto.getPessoaByEmail(ctx.query.email);
+    } else {
+      let projetos = projeto.getProjetos();
+      ctx.body = await projetos;
+    }
   })
-  .post("/api/projetos/criar", async (ctx) => {
-    ctx.body = {
-      status: "sucess",
-      message: "projetos criado",
-    };
+  .post("/api/projeto/criar", async (ctx) => {
+    ctx.checkBody("gerente").isEmail().notEmpty().notBlank();
+    ctx.checkBody("estado").ge(1).le(3);
+    ctx.checkBody("data").isDate();
+
+    if (ctx.errors) {
+      ctx.body = ctx.errors;
+      console.log(ctx.errors);
+    } else {
+      const novoProjetoOBJ = ctx.request.body;
+      const projeto = new Projeto();
+      ctx.body = await projeto.criar(
+        novoProjetoOBJ.nome,
+        novoProjetoOBJ.data,
+        novoProjetoOBJ.estado,
+        novoProjetoOBJ.gerente
+      );
+    }
   })
   .delete("/api/projeto/deletar", async (ctx) => {
-    ctx.body = {
-      status: "sucess",
-      message: "projeto deletado",
-    };
+    if (ctx.query.id != null) {
+      const projetoDeletada = new Projeto();
+      ctx.body = await projetoDeletada.deletar(ctx.query.id);
+    } else {
+      ctx.status = 404;
+    }
   })
-  .put("/api/projeto/editar/:id", async (ctx) => {
-    ctx.body = {
-      status: "sucess",
-      message: "projeto editado",
-    };
-  })
-  .get("/api/projeto/get/:id", (ctx) => {
-    ctx.body = {
-      status: "sucess",
-      message: "projeto pego",
-    };
+  .put("/api/projeto/editar", async (ctx) => {
+    if (
+      ctx.query.id != null &&
+      ctx.query.nome != null &&
+      ctx.query.data != null &&
+      ctx.query.estado != null &&
+      ctx.query.estado >= 1 &&
+      ctx.query.estado <= 3
+    ) {
+      const projetoEditada = new Projeto();
+      ctx.body = await projetoEditada.editar(
+        ctx.query.id,
+        ctx.query.nome,
+        ctx.query.data,
+        ctx.query.estado
+      );
+    } else ctx.status = 404;
   });
 
 module.exports = route.routes();
