@@ -14,9 +14,14 @@ routes
       ctx.body = await pessoas;
     }
   })
-  .post("/api/pessoa/criar", (ctx) => {
+  .post("/api/pessoa/criar", async (ctx) => {
+    const novoPessoaOBJ = ctx.request.body;
     const pessoa = new Pessoa();
-    pessoa.criar();
+    ctx.body = await pessoa.criar(
+      novoPessoaOBJ.email,
+      novoPessoaOBJ.nome,
+      novoPessoaOBJ.senha
+    );
   })
   .delete("/api/pessoa/deletar", async (ctx) => {
     if (ctx.query.email != null) {
