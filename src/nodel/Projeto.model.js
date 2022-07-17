@@ -1,6 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const { parseInputDatesAsUTC } = require("pg/lib/defaults");
 const { createHash } = require("crypto");
+const { createInvalidArgumentTypeError } = require("mocha/lib/errors");
 const prisma = new PrismaClient();
 
 class Projeto {
@@ -18,9 +19,14 @@ class Projeto {
     return Projeto;
   }
   async criar(nome, data, estado, gerente) {
+    const [ano, mes, dia] = data.split("-");
+
     const projeto = await prisma.projeto.create({
       data: {
         nome: nome,
+        dia: dia,
+        mes: mes,
+        ano: ano,
         estado: parseInt(estado),
         gerente_email: gerente,
       },

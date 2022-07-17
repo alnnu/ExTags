@@ -27,7 +27,11 @@
                             Feito
                         <%}%></h6>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><%= projeto.data %></li>
+                        <li class="list-group-item"><%= projeto.dia %>/ <% if(projeto.mes < 10) {%>
+                                0<%= projeto.mes %>
+                            <%} else {%>
+                                <%= projeto.mes %>
+                            <%}%>/<%= projeto.ano %></li>
                         <li class="list-group-item"><%= projeto.gerente_email %></li>
                         <li class="list-group-item"><%= projeto.id %></li>
                     </ul>

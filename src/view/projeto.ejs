@@ -16,9 +16,12 @@
         <%} else {%>
             Feito
         <%}%></p>
-    <p><%= projeto.data %></p>
+    <p><%= projeto.dia %>/ <% if(projeto.mes < 10) {%>
+             0<%= projeto.mes %>
+        <%} else {%>
+            <%= projeto.mes %>
+        <%}%>/<%= projeto.ano %></p>
     <p><%= projeto.gerente_email %></p>
     <p><%= projeto.id %></p>
-
 </body>
 </html>

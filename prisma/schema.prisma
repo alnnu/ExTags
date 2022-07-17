@@ -59,7 +59,9 @@ model processo {
 model projeto {
   nome          String?
   id            Int         @id @default(autoincrement())
-  data          DateTime?   @db.Date
+  dia           Decimal?    @db.Decimal
+  mes           Decimal?    @db.Decimal
+  ano           Decimal?    @db.Decimal
   estado        Decimal?    @db.Decimal
   gerente_email String?
   pessoa        pessoa?     @relation(fields: [gerente_email], references: [email], onDelete: Cascade, onUpdate: NoAction, map: "fk_projeto_2")
