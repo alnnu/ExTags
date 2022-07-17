@@ -5,7 +5,10 @@ const route = new Router();
 
 route
   .get("/projetos", async (ctx) => {
-    await ctx.render("projetos");
+    const projeto = new Projeto();
+    await ctx.render("projetos", {
+      projetos: await projeto.getProjetos(),
+    });
   })
   .get("/projeto", async (ctx) => {
     const projeto = new Projeto();
