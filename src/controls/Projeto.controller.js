@@ -4,14 +4,16 @@ const Pessoa = require("../nodel/Pessoa.model");
 const route = new Router();
 
 route
-  .get("/api/projeto", async (ctx) => {
+  .get("/projetos", async (ctx) => {
+    await ctx.render("projetos");
+  })
+  .get("/projeto", async (ctx) => {
     const projeto = new Projeto();
     if (ctx.query.id != null) {
       let projetos = projeto.getProjetoById(ctx.query.id);
       ctx.body = await projetos;
     } else {
-      let projetos = projeto.getProjetos();
-      ctx.body = await projetos;
+      ctx.redirect("/projetos");
     }
   })
   .post("/api/projeto/criar", async (ctx) => {
