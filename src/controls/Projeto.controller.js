@@ -13,8 +13,9 @@ route
   .get("/projeto", async (ctx) => {
     const projeto = new Projeto();
     if (ctx.query.id != null) {
-      let projeto = projeto.getProjetoById(ctx.query.id);
-      ctx.body = await projeto;
+      await ctx.render("projeto", {
+        projeto: await projeto.getProjetoById(ctx.query.id),
+      });
     } else {
       ctx.redirect("/projetos");
     }
