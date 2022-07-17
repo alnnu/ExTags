@@ -4,7 +4,7 @@ const chaiHttp = require("chai-http");
 
 chai.use(chaiHttp);
 
-it("Check response Post /api/pessoa/criar", function () {
+it("Check response Post /singin", function () {
   chai
     .request("http://localhost:3000")
     .post("/api/pessoa/criar")
