@@ -20,7 +20,10 @@ route
       ctx.redirect("/projetos");
     }
   })
-  .post("/projeto", async (ctx) => {
+  .get("/Addprojeto", async (ctx) => {
+    await ctx.render("addProjeto");
+  })
+  .post("/Addprojeto", async (ctx) => {
     ctx.checkBody("gerente").isEmail().notEmpty().notBlank();
     ctx.checkBody("estado").ge(1).le(3);
     ctx.checkBody("data").isDate();
