@@ -26,7 +26,8 @@ route
   .post("/Addprojeto", async (ctx) => {
     ctx.checkBody("gerente").isEmail().notEmpty().notBlank();
     ctx.checkBody("estado").ge(1).le(3);
-    ctx.checkBody("data").isDate();
+    const data = new Date().toISOString().substring(0, 10);
+    console.log(data);
 
     if (ctx.errors) {
       ctx.body = ctx.errors;
@@ -36,7 +37,7 @@ route
       const projeto = new Projeto();
       ctx.body = await projeto.criar(
         novoProjetoOBJ.nome,
-        novoProjetoOBJ.data,
+        data,
         novoProjetoOBJ.estado,
         novoProjetoOBJ.gerente
       );
