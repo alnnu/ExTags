@@ -8,11 +8,8 @@ const PessoaController = require("../controls/Pessoa.controller");
 const routes = new Router();
 
 routes
-  .get("/", (ctx) => {
-    ctx.body = {
-      status: "sucess",
-      message: "foi",
-    };
+  .get("/", async (ctx) => {
+    await ctx.render("index");
   })
   .use(LogController)
   .use(NoteController)
