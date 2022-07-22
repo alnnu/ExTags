@@ -34,7 +34,7 @@ server.use(passport.initialize());
 
 server.keys = [process.env.SECRET];
 server
-  .use(session(server))
+  .use(session(CONFIG, server))
   .use(passport.session())
   .use(cors())
   .use(logger())
