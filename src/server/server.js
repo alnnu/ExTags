@@ -18,7 +18,7 @@ require("koa-validate")(server);
 
 const CONFIG = {
   key: process.env.SECRET,
-  maxAge: 60 * 60,
+  maxAge: 60 * 60 * 1000,
 };
 
 render(server, {

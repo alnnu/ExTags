@@ -24,11 +24,17 @@ route
       ctx.redirect("/login");
     },
     async (ctx) => {
-      const projeto = new Projeto();
+      const ProjetoOBJ = new Projeto();
       if (ctx.query.id != null) {
-        await ctx.render("projeto", {
-          projeto: await projeto.getProjetoById(ctx.query.id),
-        });
+        const projeto = await ProjetoOBJ.getProjetoById(ctx.query.id);
+
+        if (projeto != null) {
+          await ctx.render("projeto", {
+            projeto: projeto,
+          });
+        } else {
+          ctx.redirect("/projetos");
+        }
       } else {
         ctx.redirect("/projetos");
       }
