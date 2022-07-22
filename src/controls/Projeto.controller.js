@@ -68,12 +68,13 @@ route
         console.log(typeof ctx.state.user.email);
         const novoProjetoOBJ = ctx.request.body;
         const projeto = new Projeto();
-        ctx.body = await projeto.criar(
+        await projeto.criar(
           novoProjetoOBJ.nome,
           data,
           novoProjetoOBJ.estado,
           ctx.state.user.email
         );
+        ctx.redirect(`/projeto?id=${projeto.id}`);
       }
     }
   )

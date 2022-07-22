@@ -1,7 +1,4 @@
 const { PrismaClient } = require("@prisma/client");
-const { parseInputDatesAsUTC } = require("pg/lib/defaults");
-const { createHash } = require("crypto");
-const { createInvalidArgumentTypeError } = require("mocha/lib/errors");
 const prisma = new PrismaClient();
 
 class Projeto {
@@ -31,6 +28,7 @@ class Projeto {
         gerente_email: gerente,
       },
     });
+    this.id = projeto.id;
     this.criarParticipa(gerente, projeto.id);
 
     return projeto;
