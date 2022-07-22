@@ -16,6 +16,11 @@ const PORT = process.env.PORT || 3000;
 const server = new koa();
 require("koa-validate")(server);
 
+const CONFIG = {
+  key: process.env.SECRET,
+  maxAge: 60 * 60,
+};
+
 render(server, {
   root: path.join("./src", "view"),
   layout: false,
