@@ -36,8 +36,8 @@ model participa {
 
 model pessoa {
   email     String      @id
-  senha     String?
-  nome      String?
+  password  String?
+  username  String?
   faz       faz[]
   nota      nota[]
   participa participa[]

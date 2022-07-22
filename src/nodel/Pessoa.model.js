@@ -1,5 +1,4 @@
 const { PrismaClient } = require("@prisma/client");
-const { createHash } = require("crypto");
 
 const prisma = new PrismaClient();
 
@@ -33,16 +32,20 @@ class Pessoa {
         email: email,
       },
       select: {
-        nome: true,
+        username: true,
         email: true,
       },
     });
+
     if (pessoa == null) {
+      const bcrypt = require("bcryptjs");
+      var salt = bcrypt.genSaltSync(10);
+      var hash = bcrypt.hashSync(senha, salt);
       return await prisma.pessoa.create({
         data: {
           email: email,
-          nome: nome,
-          senha: createHash("sha256").update(senha).digest("hex"),
+          username: nome,
+          password: hash,
         },
       });
     } else {
