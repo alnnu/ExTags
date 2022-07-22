@@ -51,7 +51,6 @@ route
       ctx.redirect("/login");
     },
     async (ctx) => {
-      ctx.checkBody("gerente").isEmail().notEmpty().notBlank();
       ctx.checkBody("estado").ge(1).le(3);
       const data = new Date().toISOString().substring(0, 10);
       console.log(data);
@@ -60,13 +59,14 @@ route
         ctx.body = ctx.errors;
         console.log(ctx.errors);
       } else {
+        console.log(typeof ctx.state.user.email);
         const novoProjetoOBJ = ctx.request.body;
         const projeto = new Projeto();
         ctx.body = await projeto.criar(
           novoProjetoOBJ.nome,
           data,
           novoProjetoOBJ.estado,
-          novoProjetoOBJ.gerente
+          ctx.state.user.email
         );
       }
     }
