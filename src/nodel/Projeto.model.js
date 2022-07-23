@@ -79,12 +79,31 @@ class Projeto {
   }
 
   async criarParticipa(pessoa, projeto) {
-    const participa = await prisma.participa.create({
-      data: {
-        pessoa_email: pessoa,
-        projeto_id: parseInt(projeto),
-      },
-    });
+    if (!this.getPessoaByEmail(pessoa)) {
+      //pessoa nao existe
+      return 1;
+    } else {
+      const pessoaProjeto = await prisma.participa.findMany({
+        where: {
+          pessoa_email: pessoa,
+          projeto_id: projeto,
+        },
+      });
+
+      if (!pessoaProjeto) {
+        //pessoa nao esta no projeto
+        const participa = await prisma.participa.create({
+          data: {
+            pessoa_email: pessoa,
+            projeto_id: parseInt(projeto),
+          },
+        });
+        return 3;
+      } else {
+        //pessoa esta no projeto
+        return 2;
+      }
+    }
   }
 }
 

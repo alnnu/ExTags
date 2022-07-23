@@ -10,7 +10,7 @@
     <title>adicionar pessoa</title>
 </head>
 <body>
-    <form id = "form" action="/login" method="get">
+    <form id = "form" action="/projeto/addpessoa" method="post">
         <div class="input-group mb-3">
             <div class="input-group-append">
                 <span class="input-group-text">projeto</span>
@@ -43,22 +43,34 @@
     </div>
 
     <script>
-      let pessoas = [];
+      let pessoas_email = [];
 
+      <%if(emails) {%>
+        let total = Number("<%= emails.length%>")
+        for(let i = 0; i < total; i++)
+        {
+          pessoas_email.push("<%= emails%>")
+        }
+        colocarTela()
+      <%}%>
+
+      <%if(msg) {%>
+        alert("<%= msg%>")
+      <%}%>
         function addicionar(){
           const email = document.getElementById("email").value
           if(email !== "")
           {
-            pessoas.push(email)
+            pessoas_email.push(email)
             colocarTela()
           }
         }
 
         function retirar(email) {
 
-          for( var i = 0; i < pessoas.length; i++){
-            if ( pessoas[i] === email) {
-              pessoas.splice(i, 1);
+          for(var i = 0; i < pessoas_email.length; i++){
+            if ( pessoas_email[i] === email) {
+              pessoas_email.splice(i, 1);
               colocarTela()
               break
             }
@@ -74,12 +86,12 @@
             <input type="text" class="form-control" name="projeto" value="<%= projeto_id %>" aria-label="Recipient's username" aria-describedby="basic-addon2" readonly>
 
         </div>`
-        for (let i = 0; i < pessoas.length; i++) {
+        for (let i = 0; i < pessoas_email.length; i++) {
           form.innerHTML += `<div class="input-group mb-3">
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" onclick="retirar('${pessoas[i]}')">x</button>
+                <button class="btn btn-outline-secondary" type="button" onclick="retirar('${pessoas_email[i]}')">x</button>
             </div>
-            <input type="text" class="form-control" name="email" value="${pessoas[i]}" aria-label="Recipient's username" aria-describedby="basic-addon2" readonly>
+            <input type="email" class="form-control" name="email" value="${pessoas_email[i]}" aria-label="Recipient's username" aria-describedby="basic-addon2" readonly>
 
             </div>`
         }

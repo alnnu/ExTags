@@ -130,41 +130,53 @@ route
       } else {
         await ctx.render("addPessoas", {
           projeto_id: ctx.query.projeto,
+          msg: null,
+          emails: null,
         });
       }
-      // const projeto = new Projeto();
-      // if (ctx.query.email != null) {
-      //   let pessoas = projeto.getPessoaByEmail(ctx.query.email);
-      //   ctx.body = await pessoas;
-      // } else {
-      //   let pessoas = projeto.getPessoas();
-      //   ctx.body = await pessoas;
-      // }
+    }
+  )
+  .post(
+    "/projeto/addpessoa",
+    function (ctx, next) {
+      if (ctx.isAuthenticated()) return next();
+      ctx.redirect("/login");
+    },
+    async (ctx) => {
+      ctx.checkBody("projeto").notBlank().notBlank();
+
+      if (ctx.errors) {
+        ctx.body = ctx.errors;
+        console.log(ctx.errors);
+      } else {
+        const novoParticipaOBJ = ctx.request.body;
+        const participa = new Projeto();
+
+        for (let i = 0; i < novoParticipaOBJ.email.length; i++) {
+          switch (participa.criarParticipa()) {
+            case 1:
+              ctx.render("addPessoas", {
+                projeto_id: novoParticipaOBJ.projeto,
+                emails: novoParticipaOBJ.email,
+                msg: `Pessoa com email: ${novoParticipaOBJ.email[i]}. Não eiste`,
+              });
+              continue;
+            case 2:
+              ctx.render("addPessoas", {
+                projeto_id: novoParticipaOBJ.projeto,
+                emails: novoParticipaOBJ.pessoas,
+                msg: `Pessoa com email: ${novoParticipaOBJ.pessoas[i]}. Ja esta no projeto`,
+              });
+              //pessoa ja esta no projeto
+              continue;
+            case 3:
+              //tudo ok
+              ctx.redirect(`/projeto?id=${novoParticipaOBJ.projeto}`);
+              continue;
+          }
+        }
+      }
     }
   );
-
-route.post(
-  "/projeto/pessoa/",
-  function (ctx, next) {
-    if (ctx.isAuthenticated()) return next();
-    ctx.redirect("/login");
-  },
-  async (ctx) => {
-    ctx.checkBody("pessoa").isEmail().notBlank().notBlank();
-    ctx.checkBody("projeto").notBlank().notBlank();
-
-    if (ctx.errors) {
-      ctx.body = ctx.errors;
-      console.log(ctx.errors);
-    } else {
-      const novoParticipaOBJ = ctx.request.body;
-      const participa = new Projeto();
-      ctx.body = await participa.criarParticipa(
-        novoParticipaOBJ.pessoa,
-        novoParticipaOBJ.projeto
-      );
-    }
-  }
-);
 
 module.exports = route.routes();
