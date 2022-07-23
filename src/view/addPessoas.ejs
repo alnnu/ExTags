@@ -10,12 +10,8 @@
     <title>adicionar pessoa</title>
 </head>
 <body>
-    <form>
-        <select class="form-select" id="select" multiple aria-label="multiple select example">
-            <option>
-                </option>
-        </select>
-        <input type="submit" value="salvar">
+    <form id = "form" action="/login" method="get">
+
     </form>
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
         + adicionar pessoa
@@ -41,15 +37,41 @@
     </div>
 
     <script>
+      let pessoas = [];
+
         function addicionar(){
-          const email = document.getElementById("email").value;
+          const email = document.getElementById("email").value
           if(email !== "")
           {
-            const select = document.getElementById("select");
-            select.innerHTML +=  `<option>${email}</option>`
+            pessoas.push(email)
+            colocarTela()
           }
-
         }
+
+        function retirar(email) {
+
+          for( var i = 0; i < pessoas.length; i++){
+            if ( pessoas[i] === email) {
+              pessoas.splice(i, 1);
+              colocarTela()
+              break
+            }
+          }
+        }
+        function colocarTela()
+      {
+        const form = document.getElementById("form")
+        form.innerText = ""
+        for (let i = 0; i < pessoas.length; i++) {
+          form.innerHTML += `<div class="input-group mb-3">
+            <input type="text" class="form-control" name="email" value="${pessoas[i]}" aria-label="Recipient's username" aria-describedby="basic-addon2" readonly>
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" onclick="retirar('${pessoas[i]}')">x</button>
+            </div>
+            </div>`
+        }
+        form.innerHTML += `<input type="submit" value="salvar">`
+      }
     </script>
 
 </body>
