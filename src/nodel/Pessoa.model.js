@@ -6,7 +6,7 @@ class Pessoa {
   async getPessoas() {
     const Pessoas = await prisma.pessoa.findMany({
       select: {
-        nome: true,
+        username: true,
         email: true,
       },
     });
@@ -19,7 +19,7 @@ class Pessoa {
         email: email,
       },
       select: {
-        nome: true,
+        username: true,
         email: true,
       },
     });

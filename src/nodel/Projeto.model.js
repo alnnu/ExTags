@@ -70,23 +70,21 @@ class Projeto {
   }
 
   async getPessoaByEmail(email) {
-    const Pessoa = await prisma.participa.findUnique({
-      where: {
-        email: email,
-      },
-    });
-    return Pessoa;
+    console.log(email);
+    const Pessoa = require("../nodel/Pessoa.model");
+    const pessoa = new Pessoa();
+    return await pessoa.getPessoaByEmail(email);
   }
 
   async criarParticipa(pessoa, projeto) {
-    if (!this.getPessoaByEmail(pessoa)) {
+    console.log(await this.getPessoaByEmail(pessoa));
+    if (!(await this.getPessoaByEmail(pessoa))) {
       //pessoa nao existe
       return 1;
     } else {
       const pessoaProjeto = await prisma.participa.findMany({
         where: {
           pessoa_email: pessoa,
-          projeto_id: projeto,
         },
       });
 
