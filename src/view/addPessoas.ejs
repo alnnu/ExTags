@@ -11,6 +11,12 @@
 </head>
 <body>
     <form id = "form" action="/login" method="get">
+        <div class="input-group mb-3">
+            <div class="input-group-append">
+                <span class="input-group-text">projeto</span>
+            </div>
+            <input type="text" class="form-control" name="projeto" value="<%= projeto_id %>" aria-label="Recipient's username" aria-describedby="basic-addon2" readonly>
+        </div>
 
     </form>
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -61,13 +67,20 @@
         function colocarTela()
       {
         const form = document.getElementById("form")
-        form.innerText = ""
+        form.innerHTML = `<div class="input-group mb-3">
+            <div class="input-group-append">
+                <span class="input-group-text">projeto</span>
+            </div>
+            <input type="text" class="form-control" name="projeto" value="<%= projeto_id %>" aria-label="Recipient's username" aria-describedby="basic-addon2" readonly>
+
+        </div>`
         for (let i = 0; i < pessoas.length; i++) {
           form.innerHTML += `<div class="input-group mb-3">
-            <input type="text" class="form-control" name="email" value="${pessoas[i]}" aria-label="Recipient's username" aria-describedby="basic-addon2" readonly>
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="button" onclick="retirar('${pessoas[i]}')">x</button>
             </div>
+            <input type="text" class="form-control" name="email" value="${pessoas[i]}" aria-label="Recipient's username" aria-describedby="basic-addon2" readonly>
+
             </div>`
         }
         form.innerHTML += `<input type="submit" value="salvar">`
