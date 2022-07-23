@@ -119,20 +119,27 @@ route
     }
   )
   .get(
-    "/projeto/pessoa",
+    "/projeto/addpessoa",
     function (ctx, next) {
       if (ctx.isAuthenticated()) return next();
       ctx.redirect("/login");
     },
     async (ctx) => {
-      const projeto = new Projeto();
-      if (ctx.query.email != null) {
-        let pessoas = projeto.getPessoaByEmail(ctx.query.email);
-        ctx.body = await pessoas;
+      if (!ctx.query.projeto) {
+        ctx.status = 404;
       } else {
-        let pessoas = projeto.getPessoas();
-        ctx.body = await pessoas;
+        await ctx.render("addPessoas", {
+          projeto_id: ctx.query.projeto,
+        });
       }
+      // const projeto = new Projeto();
+      // if (ctx.query.email != null) {
+      //   let pessoas = projeto.getPessoaByEmail(ctx.query.email);
+      //   ctx.body = await pessoas;
+      // } else {
+      //   let pessoas = projeto.getPessoas();
+      //   ctx.body = await pessoas;
+      // }
     }
   );
 
