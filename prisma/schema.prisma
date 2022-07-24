@@ -27,11 +27,12 @@ model nota {
 }
 
 model participa {
-  id           Int      @id @default(autoincrement())
-  pessoa_email String?
-  projeto_id   Int?
-  pessoa       pessoa?  @relation(fields: [pessoa_email], references: [email], onDelete: Restrict, onUpdate: NoAction, map: "fk_participa_1")
-  projeto      projeto? @relation(fields: [projeto_id], references: [id], onUpdate: NoAction, map: "fk_participa_2")
+  pessoa_email String
+  projeto_id   Int
+  pessoa       pessoa  @relation(fields: [pessoa_email], references: [email], onUpdate: NoAction, map: "fk_participa_1")
+  projeto      projeto @relation(fields: [projeto_id], references: [id], onDelete: SetNull, onUpdate: NoAction, map: "fk_participa_2")
+
+  @@id([pessoa_email, projeto_id], map: "pk_par")
 }
 
 model pessoa {

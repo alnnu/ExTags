@@ -84,10 +84,11 @@ class Projeto {
       const pessoaProjeto = await prisma.participa.findMany({
         where: {
           pessoa_email: pessoa,
+          projeto_id: Number(projeto)
         },
       });
-
-      if (!pessoaProjeto) {
+      console.log(pessoaProjeto)
+      if (pessoaProjeto.length === 0) {
         //pessoa nao esta no projeto
         const participa = await prisma.participa.create({
           data: {

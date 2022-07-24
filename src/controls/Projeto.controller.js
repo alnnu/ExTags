@@ -152,11 +152,11 @@ route
         const participa = new Projeto();
 
         for (let i = 0; i < novoParticipaOBJ.email.length; i++) {
+          console.log(novoParticipaOBJ.email[i])
           const numero = await participa.criarParticipa(
             novoParticipaOBJ.email[i],
             novoParticipaOBJ.projeto
           );
-          console.log(numero)
           if (numero === 1) {
             //pessoa nao existe
             ctx.render("addPessoas", {
