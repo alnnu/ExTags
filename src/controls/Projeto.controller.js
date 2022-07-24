@@ -5,20 +5,20 @@ const route = new Router();
 route
   .get(
     "/projetos",
-    function (ctx, next) {
+    function(ctx, next) {
       if (ctx.isAuthenticated()) return next();
       ctx.redirect("/login");
     },
     async (ctx) => {
       const projeto = new Projeto();
       await ctx.render("projetos", {
-        projetos: await projeto.getProjetos(),
+        projetos: await projeto.getProjetos()
       });
     }
   )
   .get(
     "/projeto",
-    function (ctx, next) {
+    function(ctx, next) {
       if (ctx.isAuthenticated()) return next();
       ctx.redirect("/login");
     },
@@ -29,7 +29,7 @@ route
 
         if (projeto != null) {
           await ctx.render("projeto", {
-            projeto: projeto,
+            projeto: projeto
           });
         } else {
           ctx.redirect("/projetos");
@@ -41,7 +41,7 @@ route
   )
   .get(
     "/Addprojeto",
-    function (ctx, next) {
+    function(ctx, next) {
       if (ctx.isAuthenticated()) return next();
       ctx.redirect("/login");
     },
@@ -51,7 +51,7 @@ route
   )
   .post(
     "/addprojeto",
-    function (ctx, next) {
+    function(ctx, next) {
       if (ctx.isAuthenticated()) return next();
       ctx.redirect("/login");
     },
@@ -79,7 +79,7 @@ route
   )
   .delete(
     "/projeto",
-    function (ctx, next) {
+    function(ctx, next) {
       if (ctx.isAuthenticated()) return next();
       ctx.redirect("/login");
     },
@@ -94,7 +94,7 @@ route
   )
   .put(
     "/projeto",
-    function (ctx, next) {
+    function(ctx, next) {
       if (ctx.isAuthenticated()) return next();
       ctx.redirect("/login");
     },
@@ -119,7 +119,7 @@ route
   )
   .get(
     "/projeto/addpessoa",
-    function (ctx, next) {
+    function(ctx, next) {
       if (ctx.isAuthenticated()) return next();
       ctx.redirect("/login");
     },
@@ -130,14 +130,14 @@ route
         await ctx.render("addPessoas", {
           projeto_id: ctx.query.projeto,
           msg: null,
-          emails: null,
+          emails: null
         });
       }
     }
   )
   .post(
     "/projeto/addpessoa",
-    function (ctx, next) {
+    function(ctx, next) {
       if (ctx.isAuthenticated()) return next();
       ctx.redirect("/login");
     },
@@ -151,30 +151,38 @@ route
         const novoParticipaOBJ = ctx.request.body;
         const participa = new Projeto();
 
-        for (let i = 0; i < novoParticipaOBJ.email.length; i++) {
-          console.log(novoParticipaOBJ.email[i])
+        const email = [];
+        if (typeof (novoParticipaOBJ.email) === "string") {
+          email.push(novoParticipaOBJ.email);
+        } else {
+          for (let i = 0; i < novoParticipaOBJ.email.length; i++) {
+            email.push(novoParticipaOBJ.email[i]);
+          }
+        }
+        console.log(email.length);
+        for (let i = 0; i < email.length; i++) {
           const numero = await participa.criarParticipa(
-            novoParticipaOBJ.email[i],
+            email[i],
             novoParticipaOBJ.projeto
           );
+
           if (numero === 1) {
             //pessoa nao existe
-            ctx.render("addPessoas", {
+            await ctx.render("addPessoas", {
               projeto_id: novoParticipaOBJ.projeto,
               emails: novoParticipaOBJ.email,
-              msg: `Pessoa com email: ${novoParticipaOBJ.email[i]}. Não existe`,
+              msg: `Pessoa com email: ${email[i]}. Não existe`
             });
           } else if (numero === 2) {
-            ctx.render("addPessoas", {
+            await ctx.render("addPessoas", {
               projeto_id: novoParticipaOBJ.projeto,
-              emails: novoParticipaOBJ.email,
-              msg: `Pessoa com email: ${novoParticipaOBJ.email[i]}. Ja esta no projeto`,
+              emails: email,
+              msg: `Pessoa com email: ${email[i]}. Ja esta no projeto`
             });
             //pessoa ja esta no projeto
           } else {
             //tudo ok
             ctx.redirect(`/projeto?id=${novoParticipaOBJ.projeto}`);
-            continue;
           }
         }
       }
