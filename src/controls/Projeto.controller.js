@@ -156,7 +156,7 @@ route
             novoParticipaOBJ.email[i],
             novoParticipaOBJ.projeto
           );
-
+          console.log(numero)
           if (numero === 1) {
             //pessoa nao existe
             ctx.render("addPessoas", {

@@ -10,7 +10,7 @@
     <title>adicionar pessoa</title>
 </head>
 <body>
-    <form id = "form" action="/projeto/addpessoa" method="post">
+    <form id = "form" action="/projeto/addpessoa?projeto=<%= projeto_id%>" method="post">
         <div class="input-group mb-3">
             <div class="input-group-append">
                 <span class="input-group-text">projeto</span>
@@ -46,11 +46,8 @@
       let pessoas_email = [];
 
       <%if(emails) {%>
-        let total = Number("<%= emails.length%>")
-        for(let i = 0; i < total; i++)
-        {
-          pessoas_email.push("<%= emails%>")
-        }
+        const emails = "<%= emails%>"
+        pessoas_email = emails.split(",")
         colocarTela()
       <%}%>
 

@@ -70,14 +70,13 @@ class Projeto {
   }
 
   async getPessoaByEmail(email) {
-    console.log(email);
+
     const Pessoa = require("../nodel/Pessoa.model");
     const pessoa = new Pessoa();
     return await pessoa.getPessoaByEmail(email);
   }
 
   async criarParticipa(pessoa, projeto) {
-    console.log(await this.getPessoaByEmail(pessoa));
     if (!(await this.getPessoaByEmail(pessoa))) {
       //pessoa nao existe
       return 1;
