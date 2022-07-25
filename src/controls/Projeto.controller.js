@@ -43,13 +43,10 @@ route
   }, async (ctx) => {
     ctx.checkBody("estado").ge(1).le(3);
     const data = new Date().toISOString().substring(0, 10);
-    console.log(data);
 
     if (ctx.errors) {
       ctx.body = ctx.errors;
-      console.log(ctx.errors);
     } else {
-      console.log(typeof ctx.state.user.email);
       const novoProjetoOBJ = ctx.request.body;
       const projeto = new Projeto();
       await projeto.criar(novoProjetoOBJ.nome, data, novoProjetoOBJ.estado, ctx.state.user.email);
@@ -62,10 +59,7 @@ route
   }, async (ctx) => {
     if (ctx.query.id != null) {
       const projetoDeletada = new Projeto();
-      console.log(ctx.query.id)
       ctx.body = await projetoDeletada.deletar(ctx.query.id);
-    } else {
-      console.log("Ds")
     }
   })
   .put("/projeto", function(ctx, next) {
@@ -97,7 +91,6 @@ route
 
     if (ctx.errors) {
       ctx.body = ctx.errors;
-      console.log(ctx.errors);
     } else {
       const novoParticipaOBJ = ctx.request.body;
       const participa = new Projeto();
