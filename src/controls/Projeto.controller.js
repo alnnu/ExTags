@@ -62,9 +62,10 @@ route
   }, async (ctx) => {
     if (ctx.query.id != null) {
       const projetoDeletada = new Projeto();
+      console.log(ctx.query.id)
       ctx.body = await projetoDeletada.deletar(ctx.query.id);
     } else {
-      ctx.status = 404;
+      console.log("Ds")
     }
   })
   .put("/projeto", function(ctx, next) {

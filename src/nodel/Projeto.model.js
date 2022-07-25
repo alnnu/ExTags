@@ -35,24 +35,13 @@ class Projeto {
     return projeto;
   }
 
-  async deletar(id) {
-    const projeto = await prisma.projeto.findUnique({
-      where: {
-        id: parseInt(id)
-      }
-    });
+  async deletar(projeto) {
 
-    if (projeto == null) {
-      return {
-        mensagem: "projeto não encontrada"
-      };
-    } else {
       return await prisma.projeto.delete({
         where: {
-          id: parseInt(id)
+          id: Number(projeto),
         }
       });
-    }
   }
 
   async editar(id, nome, data, estado) {
