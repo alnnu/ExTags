@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Adicionar tarefa</title>
+</head>
+<body>
+    <form action="/projeto/addtarefa" method="post">
+        <div class="input-group mb-3">
+            <div class="input-group-append">
+                <span class="input-group-text">projeto</span>
+            </div>
+            <input type="text" class="form-control" name="projeto" value="<%= projeto_id %>" aria-label="Recipient's username" aria-describedby="basic-addon2" readonly>
+        </div>
+        <div class="form-group">
+            <label for="titulo">Titulo</label>
+            <input type="text" class="form-control" id="titulo" name="nome">
+        </div>
+        <div class="form-group">
+            <label for="estimativa">estimativa</label>
+            <input type="number" class="form-control" id="estimativa" name="estimativa">
+        </div>
+        <div class="form-group">
+            <label for="prioridade">Prioridade</label>
+            <select class="form-control" id="prioridade" name="prioridade">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="Descrição">Descrição</label>
+            <textarea class="form-control" id="Descrição" rows="3" name="descricao"></textarea>
+        </div>
+        <input type="submit" value="criar">
+    </form>
+</body>
+</html>

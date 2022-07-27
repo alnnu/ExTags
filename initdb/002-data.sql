@@ -58,7 +58,9 @@ ALTER TABLE nota ADD CONSTRAINT FK_nota_3
     ON DELETE CASCADE;
 
 CREATE TABLE Tarefa (
-    data DATE,
+    dia DECIMAL,
+    mes DECIMAL,
+    ano DECIMAL,
     descricao text,
     prioridade DECIMAL,
     estado DECIMAL,

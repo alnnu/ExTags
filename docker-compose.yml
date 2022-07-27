@@ -25,7 +25,6 @@ services:
       LANG: pt_BR.utf8
     ports:
       - "5440:5432"
-
   pgadmin-compose:
     image: dpage/pgadmin4
     container_name: pgadmin
