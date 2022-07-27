@@ -73,7 +73,9 @@ model projeto {
 }
 
 model tarefa {
-  data         DateTime?  @db.Date
+  dia          Decimal?   @db.Decimal
+  mes          Decimal?   @db.Decimal
+  ano          Decimal?   @db.Decimal
   descricao    String?
   prioridade   Decimal?   @db.Decimal
   estado       Decimal?   @db.Decimal

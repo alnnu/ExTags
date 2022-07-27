@@ -14,7 +14,8 @@ route
     }
   })
   .get("/projeto/addtarefa", async (ctx) => {
-    if (ctx.query.projeto) {
+    const tarefa = new Tarefa();
+    if (ctx.query.projeto && (await tarefa.verificarProjeto(ctx.query.projeto ))) {
       await ctx.render("addTarefa", {
         projeto_id: ctx.query.projeto
       });
@@ -34,18 +35,16 @@ route
     } else {
       const novaTarefaOBJ = ctx.request.body;
       const tarefa = new Tarefa();
+
       const data = new Date().toISOString().substring(0, 10);
-      ctx.body = await tarefa.criar(
-        data,
-        novaTarefaOBJ.descricao,
-        novaTarefaOBJ.prioridade,
-        1,
-        novaTarefaOBJ.estimativa,
-        novaTarefaOBJ.nome,
-        ctx.query.projeto,
-        ctx.state.user.email
-      );
-      ctx.body = ctx.request.body
+
+      const novaTarefa = await tarefa.criar(data, novaTarefaOBJ.descricao, novaTarefaOBJ.prioridade, 1, novaTarefaOBJ.estimativa, novaTarefaOBJ.nome, novaTarefaOBJ.projeto, ctx.state.user.email);
+
+      if (novaTarefa.erro) {
+        ctx.body = novaTarefa;
+      } else {
+        ctx.redirect(`/projeto?id=${novaTarefaOBJ.projeto}`)
+      }
     }
   })
   .delete("/api/tarefa/deletar", async (ctx) => {

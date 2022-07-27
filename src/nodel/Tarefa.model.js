@@ -1,4 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
+const Projeto = require("./Projeto.model");
 const prisma = new PrismaClient();
 
 class Tarefa {
@@ -10,11 +11,18 @@ class Tarefa {
   async getTarefaById(id) {
     const Tarefa = await prisma.tarefa.findUnique({
       where: {
-        id: parseInt(id),
-      },
+        id: parseInt(id)
+      }
     });
     return Tarefa;
   }
+
+  verificarProjeto(id) {
+    const Projeto = require("./Projeto.model");
+    const projetoObj = new Projeto();
+    return projetoObj.getProjetoById(id);
+  }
+
   async criar(
     data,
     descricao,
@@ -25,6 +33,10 @@ class Tarefa {
     projeto,
     pessoa
   ) {
+    const [ano, mes, dia] = data.split("-");
+    if (!(await this.verificarProjeto(projeto))) return {
+      erro: "projeto nao essiste"
+    };
     const tarefa = await prisma.tarefa.create({
       data: {
         nome: nome,
@@ -34,7 +46,10 @@ class Tarefa {
         estimativa: parseInt(estimativa),
         projeto_id: parseInt(projeto),
         pessoa_email: pessoa,
-      },
+        dia: dia,
+        mes: mes,
+        ano: ano
+      }
     });
 
     return tarefa;
