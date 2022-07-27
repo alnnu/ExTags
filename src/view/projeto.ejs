@@ -25,6 +25,7 @@
     <p><%= projeto.gerente_email %></p>
     <p><%= projeto.id %></p>
     <p><a class="btn" href="/projeto/addpessoa?projeto=<%= projeto.id %>">adicionar pessoa</a></p>
+    <p><a class="btn" href="/projeto/addtarefa?projeto=<%= projeto.id %>">adicionar tarefa</a></p>
     <p><input type="button" value="deletar" onclick="deletar()"></p>
 
     <script>
