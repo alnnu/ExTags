@@ -51,7 +51,6 @@ class Tarefa {
         ano: ano
       }
     });
-
     return tarefa;
   }
 }

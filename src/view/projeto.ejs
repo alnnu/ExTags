@@ -28,6 +28,35 @@
     <p><a class="btn" href="/projeto/addtarefa?projeto=<%= projeto.id %>">adicionar tarefa</a></p>
     <p><input type="button" value="deletar" onclick="deletar()"></p>
 
+    <div>
+        <%if(tarefas) {%>
+            <% tarefas.forEach(function(tarefa) {%>
+                    <div class="card" style="width: 18rem; border: solid 1px">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= tarefa.nome%></h5>
+                            <h6 class="card-subtitle mb-2 text-muted"><% if (tarefa.estado === 1){%>
+                                    Em espera
+                                <%} else if(tarefa.estado === 2) {%>
+                                    Fazendo
+                                <%} else {%>
+                                    Feito
+                                <%}%></h6>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><%= tarefa.dia %>/ <% if(tarefa.mes < 10) {%>
+                                        0<%= tarefa.mes %>
+                                    <%} else {%>
+                                        <%= tarefa.mes %>
+                                    <%}%>/<%= tarefa.ano %></li>
+                                <li class="list-group-item"><%= tarefa.id %></li>
+                                <li class="list-group-item"><%= tarefa.estimativa %>
+                                <li class="list-group-item"><%= tarefa.descricao %></li>
+                            </ul>
+                        </div>
+                    </div>
+            <%}); %>
+        <%}%>
+    </div>
+
     <script>
         function deletar()
         {
@@ -40,5 +69,6 @@
           }
         }
     </script>
+
 </body>
 </html>

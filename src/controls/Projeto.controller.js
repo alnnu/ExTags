@@ -19,10 +19,11 @@ route
     const ProjetoOBJ = new Projeto();
     if (ctx.query.id != null) {
       const projeto = await ProjetoOBJ.getProjetoById(ctx.query.id);
-
+      const Tarefa = require("../nodel/Tarefa.model");
+      const tarefa = new Tarefa();
       if (projeto != null) {
         await ctx.render("projeto", {
-          projeto: projeto
+          projeto: projeto, tarefas: await tarefa.getTarefa()
         });
       } else {
         ctx.redirect("/projetos");
@@ -118,5 +119,6 @@ route
       }
     }
   });
+
 
 module.exports = route.routes();
