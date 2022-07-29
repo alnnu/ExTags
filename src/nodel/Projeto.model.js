@@ -48,17 +48,20 @@ class Projeto {
     const projetoEditada = await prisma.projeto.update({
       where: {
         id: parseInt(id)
-      },
-      data: {
-        nome: nome,
-        estado: estado
+      }, data: {
+        nome: nome, estado: estado
       }
     });
     return projetoEditada;
   }
 
-  async getPessoas() {
-    const Pessoas = await prisma.participa.findMany();
+  async getPessoas(id) {
+    const Pessoas = await prisma.participa.findMany({
+      where: {
+        projeto_id: parseInt(id)
+      }
+    });
+
     return Pessoas;
   }
 

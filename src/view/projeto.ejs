@@ -5,6 +5,9 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title><%= projeto.nome %></title>
 </head>
@@ -34,12 +37,19 @@
                     <div class="card" style="width: 18rem; border: solid 1px">
                         <div class="card-body">
                             <h5 class="card-title"><%= tarefa.nome%></h5>
-                            <h6 class="card-subtitle mb-2 text-muted"><% if (tarefa.estado === 1){%>
+                            <h6 class="card-subtitle mb-2 text-muted"><% if (tarefa.estado == '1'){%>
                                     Em espera
-                                <%} else if(tarefa.estado === 2) {%>
+                                <%} else if(tarefa.estado == '2') {%>
                                     Fazendo
                                 <%} else {%>
                                     Feito
+                                <%}%></h6>
+                            <h6 class="card-subtitle mb-2 text-muted"><% if (tarefa.prioridade == '1'){%>
+                                    baixa
+                                <%} else if(tarefa.prioridade == '2') {%>
+                                    media
+                                <%} else {%>
+                                    alta
                                 <%}%></h6>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item"><%= tarefa.dia %>/ <% if(tarefa.mes < 10) {%>
@@ -50,6 +60,24 @@
                                 <li class="list-group-item"><%= tarefa.id %></li>
                                 <li class="list-group-item"><%= tarefa.estimativa %>
                                 <li class="list-group-item"><%= tarefa.descricao %></li>
+                                <li class="list-group-item" id="atribuida_<%=tarefa.id%>">
+                                    <%if(!tarefa.pessoa_atribuida) {%>
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                atribuir
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <% pessoas.forEach(function(pessoa){%>
+                                                    <button class="dropdown-item" onclick="addTarefa('<%= pessoa.pessoa_email %>','<%= tarefa.id%>')"><%=pessoa.pessoa_email%></button>
+                                                <%})%>
+                                            </div>
+                                        </div>
+                                    <%} else {%>
+                                            <%= tarefa.pessoa_atribuida%>
+                                        <%}%>
+                                </li>
+
+
                             </ul>
                         </div>
                     </div>
@@ -67,6 +95,26 @@
           request.onload = () => {
             window.location.href = "/projetos"
           }
+        }
+        function addTarefa(email,id)
+        {
+          const request = new XMLHttpRequest()
+          const body = {
+            email: email,
+            id: id
+          }
+          request.open("PUT", '/tarefa/addpessoa',true)
+          request.setRequestHeader("Content-type", "application/json")
+          request.send(JSON.stringify(body))
+
+          request.onload = () => {
+            if (request.readyState == 4 && request.status == 203) {
+              document.getElementById(`atribuida_${id}`).innerHTML = email
+            } else {
+              console.log('error');
+            }
+          }
+
         }
     </script>
 

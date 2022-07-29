@@ -53,6 +53,16 @@ class Tarefa {
     });
     return tarefa;
   }
+  async update(email,id) {
+    await prisma.tarefa.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        pessoa_atribuida: email,
+      },
+    })
+  }
 }
 
 module.exports = Tarefa;

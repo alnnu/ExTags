@@ -43,9 +43,15 @@ route
       if (novaTarefa.erro) {
         ctx.body = novaTarefa;
       } else {
-        ctx.redirect(`/projeto?id=${novaTarefaOBJ.projeto}`)
+        ctx.redirect(`/projeto?id=${novaTarefaOBJ.projeto}`);
       }
     }
+  })
+  .put("/tarefa/addpessoa", (ctx) => {
+    const dados = ctx.request.body;
+    const tarefa = new Tarefa();
+    tarefa.update(dados.email, dados.id);
+    ctx.status = 203;
   })
   .delete("/api/tarefa/deletar", async (ctx) => {
     ctx.body = {

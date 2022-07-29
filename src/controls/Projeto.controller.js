@@ -21,9 +21,10 @@ route
       const projeto = await ProjetoOBJ.getProjetoById(ctx.query.id);
       const Tarefa = require("../nodel/Tarefa.model");
       const tarefa = new Tarefa();
+      console.log((await ProjetoOBJ.getPessoas(ctx.query.id))[0].pessoa_email)
       if (projeto != null) {
         await ctx.render("projeto", {
-          projeto: projeto, tarefas: await tarefa.getTarefa()
+          projeto: projeto, tarefas: await tarefa.getTarefa(), pessoas: await ProjetoOBJ.getPessoas(ctx.query.id)
         });
       } else {
         ctx.redirect("/projetos");
