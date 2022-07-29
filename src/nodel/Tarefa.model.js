@@ -1,10 +1,13 @@
 const { PrismaClient } = require("@prisma/client");
-const Projeto = require("./Projeto.model");
 const prisma = new PrismaClient();
 
 class Tarefa {
-  async getTarefa() {
-    const Tarefa = await prisma.tarefa.findMany();
+  async getTarefa(projeto_id) {
+    const Tarefa = await prisma.tarefa.findMany({
+      where: {
+        projeto_id: Number(projeto_id)
+      }
+    });
     return Tarefa;
   }
 
