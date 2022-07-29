@@ -1,6 +1,5 @@
 const Router = require("koa-router");
 
-const LogController = require("../controls/Log.controller");
 const NoteController = require("../controls/Note.controller");
 const ProjeController = require("../controls/Projeto.controller");
 const TarefaController = require("../controls/Tarefa.controller");
@@ -11,7 +10,6 @@ routes
   .get("/", async (ctx) => {
     await ctx.render("index");
   })
-  .use(LogController)
   .use(NoteController)
   .use(ProjeController)
   .use(TarefaController)

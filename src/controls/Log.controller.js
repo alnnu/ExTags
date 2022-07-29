@@ -1,36 +1,13 @@
 const Router = require("koa-router");
-const route = new Router();
+const Log = require("../nodel/Log.model");
 
-route
-  .get("/api/logs", (ctx) => {
-    ctx.body = {
-      status: "sucess",
-      message: "get logs",
-    };
-  })
-  .post("/api/log/criar", async (ctx) => {
-    ctx.body = {
-      status: "sucess",
-      message: "log criado",
-    };
-  })
-  .delete("/api/log/deletar", async (ctx) => {
-    ctx.body = {
-      status: "sucess",
-      message: "log deletado",
-    };
-  })
-  .put("/api/log/editar/:id", async (ctx) => {
-    ctx.body = {
-      status: "sucess",
-      message: "log editado",
-    };
-  })
-  .get("/api/log/get/:id", (ctx) => {
-    ctx.body = {
-      status: "sucess",
-      message: "log pego",
-    };
-  });
+function addLog(log, pessoa_email, tarefa_id) {
+  const logOBJ = new Log();
 
-module.exports = route.routes();
+  logOBJ.criarLog(log, pessoa_email, tarefa_id);
+}
+
+
+module.exports = {
+  addLog
+};

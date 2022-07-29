@@ -51,6 +51,11 @@ route
     const dados = ctx.request.body;
     const tarefa = new Tarefa();
     tarefa.update(dados.email, dados.id);
+
+    const { addLog } = require("./Log.controller");
+
+    addLog(`Tarefa atribuida para a ${dados.email}`, dados.email, dados.id);
+
     ctx.status = 203;
   })
   .delete("/api/tarefa/deletar", async (ctx) => {
